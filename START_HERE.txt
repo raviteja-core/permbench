@@ -1,0 +1,54 @@
+PERMBENCH LAPTOP PACKAGE  (everything here runs on your laptop, no GPU, no Kaggle, no model download)
+
+WHAT IS IN THIS FOLDER
+  permbench.py, gen_data.py     the benchmark (final v0.4 code: ID resolver + intent fix)
+  results/                      all saved model results from Kaggle (6 files, final v0.4 run + trained-model run)
+  analyze_v04.py, rescore.py    produce the tables for the paper
+  relabel_check.py              sanity check that re-labelling saved calls changes nothing
+  spicedb_eval.py               NEW: replays every saved call through real SpiceDB + measures latency (H3)
+  spicedb_diff.py               older SpiceDB correctness test (optional extra)
+
+WHAT YOU NEED INSTALLED
+  1. Python 3.9 or newer         (check: python --version ; on Mac/Linux use python3)
+  2. Docker Desktop              (for SpiceDB)   -- OR the SpiceDB release binary (see step 3 alternative)
+  3. Nothing else. No Qwen model, no adapter, no GPU: they are only needed for the final release (step 8).
+
+STEP 1 (2 min)  open a terminal IN this folder, then:
+     python gen_data.py
+  It must print:   self-checks passed   and   sha256: 4d80fca654a4f30087ced8ea26662ea0172b555b27d978a77a04ba59111d59dc
+  If the hash differs, STOP and tell me.
+
+STEP 2 (1 min)  tables for the paper
+     python analyze_v04.py results data/test_episodes.json > analysis.md
+     python rescore.py results data/test_episodes.json > rescore.md
+     python relabel_check.py
+
+STEP 3 (10 min)  start SpiceDB. Leave this terminal window open and running.
+     docker run --rm -p 50051:50051 authzed/spicedb serve-testing
+  Alternative without Docker: download the SpiceDB binary for your OS from the SpiceDB GitHub releases page
+  (github.com/authzed/spicedb/releases), then run:   ./spicedb serve-testing
+  (command and port are from memory of SpiceDB's docs: UNVERIFIED. If it fails, send me the error text.)
+
+STEP 4 (2 min)  in a SECOND terminal, in this folder:
+     pip install authzed grpcio
+  Find the SpiceDB version for the record:   docker run --rm authzed/spicedb version
+  (if that prints nothing useful, write the image tag or the binary file name you downloaded)
+
+STEP 5 (5-30 min, run time is a guess)  the SpiceDB check:
+     python spicedb_eval.py all --exhaustive 200 --spicedb-version "PASTE_VERSION_HERE"
+  It writes:  spicedb_agreement.md   latency.md   spicedb_results.json
+  PASS means: 0 label disagreements and 0 check disagreements. If it says FAIL, do not change anything: send me the files.
+  If it crashes, copy the full error text to me.
+
+STEP 6  send me these files: analysis.md, rescore.md, spicedb_agreement.md, latency.md. I write the final report from them.
+
+STEP 7  (people) label audit: I will give you a sheet of ~60 sampled calls for 2 teammates to label separately.
+
+STEP 8  release (later): the adapter (trained model) is NOT in this folder. It is on Kaggle / your Hugging Face repo:
+   - Kaggle: open your notebook "notebookcc2e295d8d" -> Output tab -> download the folder permbench/outputs/qwen25-3b-perm-lora
+     (files: adapter_model.safetensors, adapter_config.json, tokenizer files)  [I could not verify it is in that Output; check]
+   - or Hugging Face: the private repo you pushed to in the training notebook (stage 6b)
+   The base model (Qwen2.5-3B-Instruct) is NOT needed for the release; only the adapter is uploaded.
+
+IF SPICEDB WILL NOT RUN after 40 minutes: skip steps 3-5. Then the paper must NOT say SpiceDB was used. Say instead:
+   "ReBAC semantics were implemented by an in-repo Zanzibar-style evaluator; validation against SpiceDB is future work."

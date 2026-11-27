@@ -1,0 +1,119 @@
+{
+ "env": {
+  "python": "3.10.12",
+  "platform": "Linux-6.6.87.2-microsoft-standard-WSL2-x86_64-with-glibc2.35",
+  "machine": "x86_64",
+  "authzed_pkg": "1.25.0",
+  "spicedb_version": "spicedb v1.57.1",
+  "host": "localhost:50051",
+  "datastore_note": "SpiceDB on localhost, testing/in-memory datastore unless you changed it: a LOWER BOUND, not production performance"
+ },
+ "agreement": {
+  "calls": 12600,
+  "label_disagreements": 0,
+  "unique_checks": 7395,
+  "check_disagreements": 0,
+  "label_examples": [],
+  "check_examples": [],
+  "exhaustive": {
+   "episodes": 200,
+   "checks": 33416,
+   "disagreements": 0,
+   "examples": []
+  },
+  "rpc_errors": {
+   "_InactiveRpcError": 194
+  },
+  "malformed": 90,
+  "error_examples": [
+   "user:t20760a/judy read doc:t20760a/<doc_id_result_from_previous_response>: <_InactiveRpcError of RPC that terminated with:\n\tstatus = StatusCode.INVALID_ARGUMENT\n\tdetails = \"validation error: resource.object_id: does not match regex pat",
+   "user:t20760a/judy delete doc:t20760a/<doc_id_result_from_second_response>: <_InactiveRpcError of RPC that terminated with:\n\tstatus = StatusCode.INVALID_ARGUMENT\n\tdetails = \"validation error: resource.object_id: does not match regex pat",
+   "user:t20760a/judy read doc:t20760a/<doc-id>: <_InactiveRpcError of RPC that terminated with:\n\tstatus = StatusCode.INVALID_ARGUMENT\n\tdetails = \"validation error: resource.object_id: does not match regex pat",
+   "user:t20760a/judy delete doc:t20760a/<doc-id-outdated-budget>: <_InactiveRpcError of RPC that terminated with:\n\tstatus = StatusCode.INVALID_ARGUMENT\n\tdetails = \"validation error: resource.object_id: does not match regex pat",
+   "user:t20760b/judy read doc:t20760b/<doc-id-output>: <_InactiveRpcError of RPC that terminated with:\n\tstatus = StatusCode.INVALID_ARGUMENT\n\tdetails = \"validation error: resource.object_id: does not match regex pat"
+  ],
+  "seconds": 180.1
+ },
+ "latency": {
+  "n_trace_checks": 38889,
+  "fully_consistent": {
+   "n": 10000,
+   "p50": 3.3134180000615743,
+   "p95": 5.276688000094509,
+   "p99": 6.2650229999690055,
+   "mean": 3.50054693069915,
+   "max": 17.819234000057804
+  },
+  "minimize_latency": {
+   "n": 10000,
+   "p50": 3.101409999999305,
+   "p95": 5.286287999979322,
+   "p99": 7.056551999994554,
+   "mean": 3.324896335699707,
+   "max": 16.568194000001313
+  },
+  "in_repo_ref_us": {
+   "n": 10000,
+   "p50": 4.3,
+   "p95": 8.901,
+   "p99": 15.9,
+   "mean": 5.439967999999968,
+   "max": 596.421
+  },
+  "bulk_per_tool_call": "failed: _InactiveRpcError: <_InactiveRpcError of RPC that terminated with:\n\tstatus = StatusCode.INVALID_ARGUMENT\n\tdetails = \"validation error: items[0].resource.object_id: does ",
+  "per_arm": {
+   "A-Ctx": {
+    "episodes": 400,
+    "tool_calls": 830,
+    "checks": 2471,
+    "checks_per_call": 2.97710843373494,
+    "checks_per_episode": 6.1775,
+    "gateway_ms_per_episode": 20.468639695380375,
+    "model_s_per_episode": 2.5900093764066696,
+    "overhead_pct_of_model_time": 0.7902921078910602
+   },
+   "B-Ctx-Feedback": {
+    "episodes": 1467,
+    "tool_calls": 3104,
+    "checks": 9521,
+    "checks_per_call": 3.067332474226804,
+    "checks_per_episode": 6.490115882753919,
+    "gateway_ms_per_episode": 21.50446678840235,
+    "model_s_per_episode": 2.809980533428348,
+    "overhead_pct_of_model_time": 0.76528881722058
+   },
+   "B-Ctx-Stop": {
+    "episodes": 1467,
+    "tool_calls": 2481,
+    "checks": 8681,
+    "checks_per_call": 3.498992341797662,
+    "checks_per_episode": 5.917518745739605,
+    "gateway_ms_per_episode": 19.607213127835397,
+    "model_s_per_episode": 2.353567408118651,
+    "overhead_pct_of_model_time": 0.8330848336954424
+   },
+   "C": {
+    "episodes": 1468,
+    "tool_calls": 2741,
+    "checks": 7004,
+    "checks_per_call": 2.555271798613645,
+    "checks_per_episode": 4.771117166212534,
+    "gateway_ms_per_episode": 15.80870549893138,
+    "model_s_per_episode": 2.1505265789720602,
+    "overhead_pct_of_model_time": 0.7351085847303431
+   },
+   "C0": {
+    "episodes": 1453,
+    "tool_calls": 3444,
+    "checks": 11382,
+    "checks_per_call": 3.3048780487804876,
+    "checks_per_episode": 7.83344803854095,
+    "gateway_ms_per_episode": 25.955487733448617,
+    "model_s_per_episode": 2.8665860556776583,
+    "overhead_pct_of_model_time": 0.9054494520421005
+   }
+  },
+  "H3_C_overhead_pct": 0.7351085847303431,
+  "H3_supported_by_preregistered_criterion": true
+ }
+}
